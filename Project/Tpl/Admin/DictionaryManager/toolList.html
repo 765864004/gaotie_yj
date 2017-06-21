@@ -1,0 +1,68 @@
+<div class="pageHeader">
+    <form id="pagerForm" action="{%:U('admin/dictionary_manage/toollist')%}" method="post" onSubmit='return navTabSearch(this);' class="pageForm required-validate">
+        <input type="hidden" name="currentPage" value="{%$currentPage%}"/>
+        <input type="hidden" name="pageSize"    value="{%$pageSize%}"   />
+        <input type="hidden" name="_order" value="<?php echo $_REQUEST['_order']?>"/>
+        <input type="hidden" name="_sort" value="<?php echo $_REQUEST['_sort']?>"/>
+        <div id='search'>
+            工具名称：
+            <input type="text" name="tipname" value="{%$tipname%}"/>&nbsp;
+            <input type='submit' value='查询'/>
+            <input type="hidden" name="submit" value='1'/>
+        </div>
+   </form>
+</div><!-- pageHeader end -->
+
+
+<div class="pageContent">
+   <div class="panelBar">
+	    <ul class="toolBar">
+	        <li><a class="add" href="{%:U('admin/dictionary_manage/tooladd')%}" target="dialog" width="510" height="230" mask=true title='添加工具'><span>添加</span></a></li>
+	        <li><a class="edit" href="{%:U('admin/dictionary_manage/tooledit')%}?id={sid}" target="dialog" width="510" height="230" mask=true warn="您没有选中" title='编辑工具'><span>修改</span></a></li>
+	        <li class="line">line</li>
+	        <li><a class="delete" href="{%:U('admin/dictionary_manage/toolProcess')%}?id={sid}&actType=del" target="ajaxTodo" warn="您没有选中" title="确定要删除吗？"><span>删除</span></a></li>
+	        <li class="line">line</li>
+	    </ul>
+	</div>
+   
+    <table class="table" width="99%" layoutH="117" targetType="navTab" asc="asc" desc="desc">
+           <thead>
+                <tr>
+                    <th align='center'>ID</th>
+                    <th align='center'>工具名称</th>
+					<th align='center'>图片名称</th>
+                    <th align='center'>鼠标名称</th>
+                    <th align='center'>检修类别</th>
+                </tr>
+         </thead>
+         <tbody>
+                {%volist name='list' id="vo"%}
+                <tr target="sid" rel="{%$vo['id']%}">
+                    <td align='center'>{%$vo['id']%}</td>
+                    <td align='center'>{%$vo['tipname']%}</td>
+					<td align='center'>{%$vo['picname']%}</td>
+                    <td align='center'>{%$vo['mousename']%}</td>
+                    <td align='center'>
+                        {%volist name="JXTypeArr" id='Jxvo'%}
+                            <?php if(($vo['uselev']& $key) == $key): ?>{%$Jxvo%}&nbsp;&nbsp;&nbsp;<?php endif;?>
+                        {%/volist%}
+                </tr>
+                {%/volist%}
+          </tbody>
+    </table>
+
+    <div class="panelBar" >
+        <div class="pages">
+            <span>显示</span>
+            <select name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+                <option value="25" {%eq name="pageSize" value='25'%}selected{%/eq%}>25</option>
+                <option value="50" {%eq name="pageSize" value='50'%}selected{%/eq%}>50</option>
+                <option value="100" {%eq name="pageSize" value='100'%}selected{%/eq%}>100</option>
+                <option value="200" {%eq name="pageSize" value='200'%}selected{%/eq%}>200</option>
+            </select>
+            <span>条，共{%$totalCount%}条</span>
+        </div><!--pages end -->
+        <div class="pagination" targetType="navTab" totalCount="{%$totalCount%}" numPerPage="{%$pageSize%}" pageNumShown="5" currentPage="{%$currentPage%}"></div>
+    </div><!-- panelBar end -->
+
+</div><!-- pageContent end -->

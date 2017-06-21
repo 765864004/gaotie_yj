@@ -1,0 +1,36 @@
+<div style="height:420px;overflow-y:auto;">
+    <form  class="pageForm required-validate"  action="{%:U('admin/yj_manage/yjKsAdd')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center"  width='160'><label>自定义考试名称</label></td>
+                <td align="left"><input type='text' name='name'  class="required" style='width:550px;'/></td>
+            </tr>
+            <tr>
+                <td align="center"  width='160'><label>应急故障名称</label></td>
+                <td align="left">
+                    <select name="taskId">
+                    {%volist name="yjTaskPos" id='yjtask'%}
+                        <option value="{%$yjtask['autoid']%}">{%$yjtask['autoid']%}（{%$yjtask['cname']%}）</option>
+                    {%/volist%}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>学生编号</label></td>
+                <td align="left">
+                    <div style="width:100%;height:130px;overflow-y:scroll" id="partcont1">
+                        {%volist name="list" id="uservo"%}
+                            <input type="checkbox" name="stuid[]" value="{%$uservo['uid']%}">{%$uservo['uname']%}
+                        {%/volist%}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->

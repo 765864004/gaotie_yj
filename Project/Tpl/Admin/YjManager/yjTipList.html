@@ -1,0 +1,67 @@
+<div class="pageHeader">
+    <form id="pagerForm" action="{%:U('admin/yj_manage/yjTiplist')%}" method="post" onSubmit='return navTabSearch(this);'>
+        <input type="hidden" name="currentPage" value="{%$currentPage%}"/>
+        <input type="hidden" name="pageSize"    value="{%$pageSize%}"   />
+        <input type="hidden" name="_order" value="<?php echo $_REQUEST['_order']?>"/>
+        <input type="hidden" name="_sort" value="<?php echo $_REQUEST['_sort']?>"/>
+        <div id='search'>
+            故障名称：
+            <select name="id" id="id">
+                <option value="">所有</option>
+            {%volist name="gzlist" id='vo'%}
+               <option value="{%$vo['autoid']%}" {%eq name="vo['autoid']" value="$id"%}selected{%/eq%}>{%$vo['cname']%}</option>
+            {%/volist%}
+            </select>
+            <input type='submit' value='点击查询'/>
+        </div>
+   </form>
+</div><!-- pageHeader end -->
+
+
+
+<div class="pageContent">
+	<div class="panelBar">
+	    <ul class="toolBar">
+	        <li><a class="add" href="{%:U('admin/yj_manage/yjTipadd')%}" target="dialog" width="510" height="180" mask=true title='添加故障处理流程'><span>添加故障处理流程</span></a></li>
+	        <li><a class="edit" href="{%:U('admin/yj_manage/yjTipedit')%}?id={sid}" target="dialog" width="510" height="180" mask=true warn="您没有选中" title='编辑故障处理流程'><span>编辑故障处理流程</span></a></li>
+	        <li class="line">line</li>
+	        <li><a class="delete" href="{%:U('admin/yj_manage/yjTipProcess')%}?id={sid}&actType=del" target="ajaxTodo" warn="您没有选中" title="确定要删除吗？"><span>删除故障处理流程</span></a></li>
+	        <li class="line">line</li>
+	    </ul>
+	</div>
+    <table class="table" width="99%" layoutH="117" targetType="navTab" asc="asc" desc="desc">
+           <thead>
+                <tr>
+                    <th align='center'>故障名称</th>
+                    <th align='center'>提示序号</th>
+                    <th align='center'>提示内容</th>
+                    <th align='center'>分值</th>
+                </tr>
+         </thead>
+         <tbody>
+                {%volist name='list' id="vo"%}
+                <tr target="sid" rel="{%$vo['autoid']%}">
+                    <td align='center'>{%$vo['cname']%}</td>
+                    <td align='center'>{%$vo['childid']%}</td>
+                    <td align='center'>{%$vo['txt']%}</td>
+                    <td align='center'>{%$vo['hold1']%}</td>
+                </tr>
+                {%/volist%}
+          </tbody>
+    </table>
+
+    <div class="panelBar" >
+        <div class="pages">
+            <span>显示</span>
+            <select name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+                <option value="25" {%eq name="pageSize" value='25'%}selected{%/eq%}>25</option>
+                <option value="50" {%eq name="pageSize" value='50'%}selected{%/eq%}>50</option>
+                <option value="100" {%eq name="pageSize" value='100'%}selected{%/eq%}>100</option>
+                <option value="200" {%eq name="pageSize" value='200'%}selected{%/eq%}>200</option>
+            </select>
+            <span>条，共{%$totalCount%}条</span>
+        </div><!--pages end -->
+        <div class="pagination" targetType="navTab" totalCount="{%$totalCount%}" numPerPage="{%$pageSize%}" pageNumShown="5" currentPage="{%$currentPage%}"></div>
+    </div><!-- panelBar end -->
+
+</div><!-- pageContent end -->

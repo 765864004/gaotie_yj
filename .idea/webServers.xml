@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="58aa9cb6-9f60-481a-978e-4871c83e8b69" name="gaotie" url="http://103.200.29.209">
+        <fileTransfer host="103.200.29.209" port="22" rootFolder="/home/wwwroot/gaotie.whhouseinfo.com" accessType="SFTP" password="df99dfc9df9fdf98dfcedf9fdfccdf92df99df9ddfcbdfcc" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

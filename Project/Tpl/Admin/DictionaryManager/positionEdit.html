@@ -1,0 +1,26 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/dictionary_manage/positionEdit')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='130'><label>模型名称(碰撞体)</label></td>
+                <td align="left"><input type='text' name='modelname'  class="required" value="{%$positionPo['modelname']%}"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>中文名称</label></td>
+                <td align="left"><input type='text' name='tipname' value="{%$positionPo['tipname']%}"/></td>
+            </tr>
+            <tr>
+                <td align="center" width='130'><label>更换贴图的模型名称</label></td>
+                <td align="left"><input type='text' name='randname' value="{%$positionPo['randname']%}"/></td>
+            </tr>
+            
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="id" value="{%$positionPo['id']%}"/>
+    </form>
+</div><!-- pageContent end -->

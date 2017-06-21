@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>成绩查询结果</title>
+</head>
+<body>
+<h1>成绩查询结果</h1><br/><br/>
+<table style="width:800px;">
+    <tr><th>学员</th><th>学员编号</th><th>考核时间</th><th>总分</th></tr>
+    <tr><td>{%$userInfo["uname"]%}</td><td>{%$userInfo["stuid"]%}</td><td>{%$kstime%}</td><td>{%$fenTotal%}</td></tr>
+</table>
+<br/>
+{%notempty name="fenArr"%}
+<table style="width:800px;">
+    <tr><th>检修部件</th><th>工具得分</th><th style="width:300px;">步骤名称</th><th style="width:70px;">操作得分</th><th style="width:70px;">答题得分</th></tr>
+    {%volist name="fenArr" id="po"%}
+        <tr>
+            <td>{%$po['toolResult']['name']%}</td><td>{%$po['toolResult']['hold1']%}</td>
+            <td colspan=3>
+                <table>
+                {%volist name="po[taskResult]" id='po1'%}
+                    <tr>
+                        <td style="width:300px;">{%$po1['name']%}</td><td style="width:70px;">{%$po1['defen2']%}</td><td style="width:70px;">{%$po1['defen1']%}</td>
+                    </tr>
+                {%/volist%}
+                </table>
+            </td>
+        </tr>
+    {%/volist%}
+</table>
+{%/notempty%}
+</body>
+</html>
+
+<style>
+*{text-align:center;margin:0 auto;padding:0 auto;}
+body{padding-top:100px;}
+table{width:100%;font-size:15px;border-collapse:collapse;}
+table tr,table th,table td{height:30px;border:1px gray solid;}
+</style>

@@ -1,0 +1,42 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/admin_manage/editAdmin')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='100'><label>用户名</label></td>
+                <td align="left"><input type='text' name='username' value="{%$adminPo['name']%}" class="required"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>用户密码</label></td>
+                <td align="left"><input type='password' name='password'  id="password" /></td>
+            </tr>
+            <tr>
+                <td align="center"><label>确认密码</label></td>
+                <td align="left"><input type='password' name='confirm_password'/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>真实姓名</label></td>
+                <td align="left"><input type='text' name='tname' class="required" value="{%$adminPo['true_name']%}"   size='40'/></td>
+            </tr>
+            <tr>
+                <td align="center" width='100'>用户角色</td>
+                <td align="left">
+                <select name="roleId">{%volist name='roleList' id='value'%}<option value="{%$value['id']%}" <?php if($value['id'] == $adminPo['role_id']){ echo "selected";} ?>>{%$value['name']%}</option>{%/volist%}</select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>是否启用</label></td>
+                <td align="left">
+                    <input type="radio" name="status" value="Y" {%eq name="adminPo['status']" value="Y"%}checked{%/eq%}/>是
+                    <input type="radio" name="status" value="N" {%eq name="adminPo['status']" value="N"%}checked{%/eq%}/>否
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="id" value="{%$adminPo['id']%}"/>
+    </form>
+</div><!-- pageContent end -->

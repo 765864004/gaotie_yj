@@ -1,0 +1,43 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/yj_manage/yjTaskEdit')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+             <tr>
+                <td align="center" width='150'><label>车型</label></td>
+                <td align="left">
+                     <select name="CRH" id="CRH" class="required">
+                     {%volist name="crh" id='vo'%}
+                        <option value="{%$key%}" {%eq name='key' value="$Po['CRH']"%}selected{%/eq%}>{%$vo%}</option>
+                     {%/volist%}
+                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>名称</label></td>
+                <td align="left"><input type='text' name='cname' value="{%$Po['cname']%}"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>碰撞点</label></td>
+                <td align="left">
+                    <select name='collid'>
+                        {%volist name="collisePos" id="collisePo"%}
+                        <option value="{%$collisePo['autoid']%}" <?php if($Po['collid'] ==$collisePo['autoid']):?>selected<?php endif;?>>{%$collisePo['collname']%}</option>
+                        {%/volist%}
+                    </select>
+                </td>
+            </tr>
+             <tr>
+                <td align="center"><label>出发位置</label></td>
+                <td align="left">
+                    <input type='text' name='hold1' value="{%$Po['hold1']%}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="id" value="{%$Po['autoid']%}"/>
+    </form>
+</div><!-- pageContent end -->

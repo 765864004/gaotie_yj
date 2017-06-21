@@ -1,0 +1,93 @@
+<div class="pageHeader">
+    <form id="pagerForm" action="{%:U('admin/task_manage/educationList')%}" method="post" onSubmit='return navTabSearch(this);'>
+        <input type="hidden" name="currentPage" value="{%$currentPage%}"/>
+        <input type="hidden" name="pageSize"    value="{%$pageSize%}"   />
+        <input type="hidden" name="_order" value="<?php echo $_REQUEST['_order']?>"/>
+        <input type="hidden" name="_sort" value="<?php echo $_REQUEST['_sort']?>"/>
+        <div id='search'>
+            任务名称：
+            <input type="text" name="taskname" value="{%$taskname%}"/>&nbsp;
+            <input type='submit' value='查询'/>
+            <input type="hidden" name="submit" value='1'/>
+        </div>
+   </form>
+</div><!-- pageHeader end -->
+
+
+<div class="pageContent">
+    
+	<div class="panelBar">
+	    <ul class="toolBar">
+	        <li><a class="add" href="{%:U('admin/task_manage/educationadd')%}" target="dialog" width="500" height="160" mask=true title='添加检修答案'><span>添加</span></a></li>
+	        <li><a class="edit" href="{%:U('admin/task_manage/educationedit')%}?id={sid}" target="dialog" width="500" height="160" mask=true warn="您没有选中" title='编辑检修答案'><span>修改</span></a></li>
+	        <li class="line">line</li>
+	        <li><a class="delete" href="{%:U('admin/task_manage/educationProcess')%}?id={sid}&actType=del" target="ajaxTodo" warn="您没有选中" title="确定要删除吗？"><span>删除</span></a></li>
+	        <li class="line">line</li>
+	    </ul>
+	</div>
+    <table class="table" width="99%" layoutH="117" targetType="navTab" asc="asc" desc="desc">
+        <thead>
+                <tr>
+                    <th align='center'>任务名称</th>
+					<th align='center'>题型</th>
+					<th align='center'>答案</th>
+					<th align='center'>问题提示框上文字</th>
+					<!--
+                    <th align='center'>车型</th>
+                    <th align='center'>检修级别</th>
+                    <th align='center'>热点</th>
+                    <th align='center'>部位</th>
+                    <th align='center'>部件</th>
+                    <th align='center'>工具</th>
+                    <th align='center'>工具得分</th>
+                    <th align='center'>操作得分</th>
+                    <th align='center'>答题得分</th>
+					-->
+                </tr>
+         </thead>
+         <tbody>
+                {%volist name='list' id="vo"%}
+                <tr target="sid" rel="{%$vo['mid']%}">
+                    <td align='center'>{%$vo['taskname']%}</td>
+					<td align='center'><?php if($vo['opttype'] == 1):?>选择<?php elseif($vo['opttype'] == 2):?>填空<?php elseif($vo['opttype'] == 3):?>操作<?php endif;?></td>
+					<td align='center'><?php if($vo['opttype'] == 1):?>{%$chageType[$vo['tret']]%}<?php else:?>{%$vo['trettxt']%}<?php endif;?></td>
+					<td align='center'>{%$vo['ttooltip']%}</td>
+					<!--
+                    <td align='center'><?php echo $crh[$vo['CRH']];?></td>
+                    <td align='center'>
+                        {%volist name="JXTypeArr" id='Jxvo'%}
+                            <?php if(($vo['level']& $key) == $key): ?>{%$Jxvo%}&nbsp;&nbsp;&nbsp;<?php endif;?>
+                        {%/volist%}
+                    </td>
+                    <td align='center'>{%$vo['name3']%}</td>
+                    <td align='center'>
+                        {%volist name="BWTypeArr" id='Bwvo'%}
+                            <?php if(($vo['area']& $key) == $key): ?>{%$Bwvo%}&nbsp;&nbsp;&nbsp;<?php endif;?>
+                        {%/volist%}
+                    </td>
+                    <td align='center'>{%$vo['name2']%}</td>
+                    <td align='center'>{%$vo['name1']%}</td>
+                    <td align='center'>{%$vo['hold2']%}</td>
+                    <td align='center'>{%$vo['hold1']%}</td>
+                    <td align='center'>{%$vo['pow']%}</td>
+					-->
+                </tr>
+                {%/volist%}
+          </tbody>
+    </table>
+
+    <div class="panelBar" >
+        <div class="pages">
+            <span>显示</span>
+            <select name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+                <option value="25" {%eq name="pageSize" value='25'%}selected{%/eq%}>25</option>
+                <option value="50" {%eq name="pageSize" value='50'%}selected{%/eq%}>50</option>
+                <option value="100" {%eq name="pageSize" value='100'%}selected{%/eq%}>100</option>
+                <option value="200" {%eq name="pageSize" value='200'%}selected{%/eq%}>200</option>
+            </select>
+            <span>条，共{%$totalCount%}条</span>
+        </div><!--pages end -->
+        <div class="pagination" targetType="navTab" totalCount="{%$totalCount%}" numPerPage="{%$pageSize%}" pageNumShown="5" currentPage="{%$currentPage%}"></div>
+    </div><!-- panelBar end -->
+
+</div><!-- pageContent end -->

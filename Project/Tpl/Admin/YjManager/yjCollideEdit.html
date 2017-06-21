@@ -1,0 +1,31 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/yj_manage/yjCollideEdit')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+             <tr>
+                <td align="center" width='150'><label>碰撞点模型名称</label></td>
+                <td align="left">
+                     <input type='text' name='collname' style="width:250px;" value="{%$po['collname']%}"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width='150'><label>地图编号</label></td>
+                <td align="left">
+                     <input type='text' name='mapid' style="width:250px;" value="{%$po['mapid']%}"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>距离</label></td>
+                <td align="left">
+                    <input type='text' name='distance' style="width:250px;" value="{%$po['distance']%}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="id" value="{%$po['autoid']%}"/>
+    </form>
+</div><!-- pageContent end -->

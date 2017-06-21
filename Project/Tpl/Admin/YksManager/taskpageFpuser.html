@@ -1,0 +1,15 @@
+<!--查看考试人员-->
+<div class="pageContent"  style="height:280px;overflow-y:auto;">
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="left" width='100'>
+					{%volist name="stus" id="stu"%}
+						{%$stu['truename']%}<br/>
+					{%/volist%}
+				</td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->

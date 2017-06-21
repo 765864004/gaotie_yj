@@ -1,0 +1,48 @@
+<div class="pageHeader">
+    <form id="pagerForm" action="{%:U('admin/taskpage_manage/pageUserList')%}" method="post" onSubmit='return navTabSearch(this);'>
+        <div id='search'>
+            试卷类别：
+            <select name="pindex">
+                <option value='0'>所有</option>
+                {%volist name="SJTypeArr" id='sjvo'%}
+                    <option value="{%$key%}" <?php if($key == $pindex):?>selected<?php endif;?>>{%$sjvo%}
+                {%/volist%}
+            </select>&nbsp;
+            <input type='submit' value='点击查询'/>
+        </div>
+   </form>
+</div><!-- pageHeader end -->
+
+
+
+<div class="pageContent">
+    <div class="panelBar">
+	    <ul class="toolBar">
+	        <li><a class="add" href="{%:U('admin/taskpage_manage/fpKsPage')%}?id={sid}" target="dialog" width="510" height="260" mask=true title='分配试卷'><span>分配试卷</span></a></li>
+	        <li class="line">line</li>
+	        <li><a class="delete" href="{%:U('admin/taskpage_manage/fpKsProcess')%}?id={sid}&actType=del" target="ajaxTodo" warn="您没有选中" title="确定要删除试卷分配吗？"><span>删除试卷分配</span></a></li>
+	        <li class="line">line</li>
+	    </ul>
+	</div>
+    <table class="table" width="99%" layoutH="117" targetType="navTab" asc="asc" desc="desc">
+           <thead>
+                <tr>
+                    <th align='center'>试卷类型</th>
+                    <th align='center'>学生</th>
+                </tr>
+         </thead>
+         <tbody>
+                {%volist name='userTypeArr' id="vo"%}
+                <tr target="sid" rel="{%$key%}">
+                    <td align='center'>{%$SJTypeArr[$key]%}</td>
+                    <td align='center'>
+                        {%volist name="vo" id='voUser'%}
+                            {%$voUser['uname']%}&nbsp;
+                        {%/volist%}
+                    </td>
+                </tr>
+                {%/volist%}
+          </tbody>
+    </table>
+
+</div><!-- pageContent end -->

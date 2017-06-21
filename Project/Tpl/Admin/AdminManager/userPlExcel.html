@@ -1,0 +1,56 @@
+<div class="pageContent">
+    <form  class="pageForm"  action="{%:U('admin/admin_manage/userPlExcel')%}" onsubmit="return validateCallback(this)"  method="post"   enctype=multipart/form-data>
+    <table id="UserListTable" class="list" width="100%">
+        <tbody>
+            <tr>
+                <td align="center" width='100'><label>请上传Excel文件</label></td>
+                <td align="left">
+                    <input type="file" id="fileToUpload" name="fileToUpload"  dataTo="{%:U('admin/admin_manage/AjaxDouploadPic')%}"/>(190x100)
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width='100'></td>
+                <td align="left" id="imagePre"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' id="frmsubmit" value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+            <input type="hidden" name="imageContent" id="imga" value=""/>
+            <input type="hidden" name="submit" value="1"/>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->
+
+<script>
+$(function(){
+	$("#fileToUpload").change(function(){
+		  $.ajaxFileUpload
+	      ({
+	          url: $("#fileToUpload").attr('dataTo'),//用于文件上传的服务器端请求地址
+	          secureuri:false,//一般设置为false
+	          fileElementId:'fileToUpload',//文件上传空间的id属性  <input type="file" id="file" name="file" />
+	          dataType: 'json',//返回值类型 一般设置为json
+	          success: function (data)  //服务器成功响应处理函数
+	          {
+	             if(typeof(data.error) != 'undefined')
+	              {
+	                 if(data.error != ''){
+	                	 alert(data.error);
+	                     $("#imagePre").html("<span color='red'>上传错误！请上传xlsx格式的文件</span>");
+	                 }else{
+	                     $("#imagePre").html("上传成功!");
+	                     $("#imga").val(data.msg);
+	                     //alert(data.msg);
+	                 }
+	              }
+	          },
+	          error: function (data, status, e)//服务器响应失败处理函数
+	          {
+	              alert(e);
+	          }
+	      })
+	});
+})
+</script>

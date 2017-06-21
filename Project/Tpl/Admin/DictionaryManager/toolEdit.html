@@ -1,0 +1,41 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/dictionary_manage/toolEdit')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='100'><label>图片名称</label></td>
+                <td align="left"><input type='text' name='picname'  class="required" value="{%$toolPo['picname']%}"/>允许字母数字下划线</td>
+            </tr>
+            <tr>
+                <td align="center" width='100'><label>鼠标名称</label></td>
+                <td align="left"><input type='text' name='mousename'  class="required" value="{%$toolPo['mousename']%}"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>工具名称(汉字)</label></td>
+                <td align="left"><input type='text' name='tipname' value="{%$toolPo['tipname']%}"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>检修类别</label></td>
+                <td align="left">
+                    {%volist name="JXTypeArr" id='Jxvo'%}
+                        <input type="checkbox" name="uselev[]" value="{%$key%}" <?php if(($toolPo['uselev']& $key) == $key): ?>checked<?php endif;?>>{%$Jxvo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>工具用途</label></td>
+                <td align="left">
+                     {%volist name="TOOLUseTypeArr" id='ToolUsevo'%}
+                        <input type="radio" name="usetype" value="{%$key%}" <?php if(($toolPo['usetype']& $key) == $key): ?>checked<?php endif;?>>{%$ToolUsevo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+        <input type="hidden" name="id" value="{%$toolPo['id']%}"/>
+    </table>
+    </form>
+</div><!-- pageContent end -->

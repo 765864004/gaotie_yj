@@ -1,0 +1,44 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/dictionary_manage/toolAdd')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='100'><label>工具ID</label></td>
+                <td align="left"><input type='text' name='id'  class="required"/></td>
+            </tr>
+            <tr>
+                <td align="center" width='100'><label>图片名称</label></td>
+                <td align="left"><input type='text' name='picname'  class="required"/></td>
+            </tr>
+            <tr>
+                <td align="center" width='100'><label>鼠标名称</label></td>
+                <td align="left"><input type='text' name='mousename'  class="required"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>工具名称(汉字)</label></td>
+                <td align="left"><input type='text' name='tipname'/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>检修类别</label></td>
+                <td align="left">
+                    {%volist name="JXTypeArr" id='Jxvo'%}
+                        <input type="checkbox" name="uselev[]" value="{%$key%}" checked>{%$Jxvo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>工具用途</label></td>
+                <td align="left">
+                     {%volist name="TOOLUseTypeArr" id='ToolUsevo'%}
+                        <input type="radio" name="usetype" value="{%$key%}">{%$ToolUsevo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->

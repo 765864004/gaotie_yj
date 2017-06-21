@@ -1,0 +1,76 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/taskpage_manage/addTaskPage')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='150'><label>名称</label></td>
+                <td align="left">
+                    <input type="text" name="name" class="required" style="width:300px;"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width='150'><label>试卷类型</label></td>
+                <td align="left">
+                     {%volist name="SJTypeArr" id='sjvo'%}
+                        <input name="pindex" value="{%$key%}" type="radio" <?php if($key == 1):?>checked<?php endif;?>>{%$sjvo%}
+                    {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width='150'><label>车型</label></td>
+                <td align="left">
+                     <select name="CRH" id="CRH" class="required">
+                     {%volist name="crh" id='vo'%}
+                        <option value="{%$key%}">{%$vo%}</option>
+                     {%/volist%}
+                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>检修级别</label></td>
+                <td align="left">
+                    {%volist name="JXTypeArr" id='Jxvo'%}
+                        <input type="radio" name="level" value="{%$key%}" <?php if(1 == $key): ?>checked<?php endif;?>>{%$Jxvo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>任务部位</label></td>
+                <td align="left">
+                    {%volist name="BWTypeArr" id='Bwvo'%}
+                        <input name="area" value="{%$key%}" type="radio" <?php if($key == 1):?>checked<?php endif;?> class="partpoint1">{%$Bwvo%}
+                    {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>部件</label></td>
+                <td align="left">
+                    <div style="width:100%;height:80px;overflow-y:scroll" id="partcont1">
+                        {%volist name="unitList" id="unitvo"%}
+                            <input type="checkbox" name="unitA[]" value="{%$unitvo['id']%}">{%$unitvo['unitname']%}
+                        {%/volist%}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->
+<script>
+$(function(){
+    $(".partpoint1").click(function(){
+    	$("#partpoint1").html('');
+    	var CRH = $("#CRH").val();
+        var value = $(this).val();
+        var level = $(":radio[name=level]:checked").val();
+        var url="{%:U('admin/task_manage/getTaskBaseUnit')%}";
+        $.post(url,{'type':value,'CRH':CRH,'level':level,'from':'taskPage'},function(data){
+            $("#partcont1").html(data.data);
+        },'json')
+    });
+})
+ </script>

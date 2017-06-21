@@ -1,0 +1,43 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/dictionary_manage/unitEdit')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='100'><label>部件名称</label></td>
+                <td align="left"><input type='text' name='unitname'  class="required" value="{%$unitPo['unitname']%}"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>车型</label></td>
+                <td align="left">
+                    <select name="CRH" class="required">
+                    {%volist name="crh" id='vo'%}
+                        <option value="{%$key%}" {%eq name='key' value="$unitPo['CRH']"%}selected{%/eq%}>{%$vo%}</option>
+                    {%/volist%}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>检修类别</label></td>
+                <td align="left">
+                    {%volist name="JXTypeArr" id='Jxvo'%}
+                        <input type="checkbox" name="level[]" value="{%$key%}" <?php if(($unitPo['level']& $key) == $key): ?>checked<?php endif;?>>{%$Jxvo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>该部件所属部位</label></td>
+                <td align="left">
+                    {%volist name="BWTypeArr" id='Bwvo'%}
+                        <input name="area[]" value="{%$key%}" type="checkbox" <?php if(($unitPo['area']& $key) == $key): ?>checked<?php endif;?>>{%$Bwvo%}
+                    {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+     <input type="hidden" name="id" value="{%$unitPo['id']%}"/>
+    </form>
+</div><!-- pageContent end -->

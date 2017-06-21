@@ -1,0 +1,91 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/yj_manage/yjInitAdd')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+             <tr>
+                <td align="center" width='150'><label>故障id</label></td>
+                <td align="left">
+                     <select name="id" id="id">
+                     {%volist name="list" id='vo'%}
+                        <option value="{%$vo['autoid']%}">{%$vo['cname']%}</option>
+                     {%/volist%}
+                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width='150'><label>车型</label></td>
+                <td align="left">
+                     <select name="CRH" id='CRH' class="required">
+                     {%volist name="crh" id='vo'%}
+                        <option value="{%$key%}">{%$vo%}</option>
+                     {%/volist%}
+                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>检修级别</label></td>
+                <td align="left">
+                    {%volist name="JXTypeArr" id='Jxvo'%}
+                        <input type="radio" name="level" value="{%$key%}" <?php if(1 == $key): ?>checked<?php endif;?>>{%$Jxvo%}
+                     {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>任务部位</label></td>
+                <td align="left">
+                    {%volist name="BWTypeArr" id='Bwvo'%}
+                        <input name="area" value="{%$key%}" type="radio" <?php if($key == 1):?>checked<?php endif;?> class="partpoint">{%$Bwvo%}
+                    {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>部件</label></td>
+                <td align="left">
+                    <div style="width:100%;height:60px;overflow-y:scroll" id="partcont">
+                        {%volist name="unitList" id="unitvo"%}
+                            <input type="radio" name="unit" value="{%$unitvo['id']%}">{%$unitvo['unitname']%}
+                        {%/volist%}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>热点编号</label></td>
+                <td align="left">
+                    <div style="width:100%;height:60px;overflow-y:scroll" id="positionModcont">
+                        
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>热点状态</label></td>
+                <td align="left"><input type='text' name='pstate' style="width:250px;"/></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->
+
+<script>
+$(function(){
+	$(".partpoint").click(function(){
+        var CRH = $("#CRH").val();
+        var value = $(this).val();
+        var url="{%:U('admin/task_manage/ajaxGetPositionByType')%}";
+        $.post(url,{'type':value,'CRH':CRH},function(data){
+            $("#partcont").html(data.data);
+        },'json')
+    });
+	
+    $(":input[name=unit]").die().live('click', function(){
+        var unitId = $(this).val();
+        var url="{%:U('admin/task_manage/ajaxGetPositionByUnitId')%}";
+        $.post(url,{'unitId':unitId},function(data){
+            $("#positionModcont").html(data.data);
+        },'json')
+    });
+})
+</script>

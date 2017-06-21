@@ -1,0 +1,169 @@
+-- 2013/1/17 武汉卓讯 v2.0 更换到sqlserver2005
+-- 2013/1/16 武汉卓讯 v1.1
+-- 2013/1/13 武汉卓讯 v1.0
+-- editby barry fly_027@163.com
+-- 任务task 部位position 编号id 模型model 工具箱toolcase 工具tool 提示tip 选择choose 材料material
+
+-- GRANT ALL ON d_train.* TO gt_db_root@'%' identified  by '123456';
+-- FLUSH PRIVILEGES;
+
+create database d_train;
+use d_train;
+
+create table  t_m_admin
+(
+	id		int		identity (1,1) NOT NULL,		-- 主键id
+	name		varchar(50)	NOT NULL,				-- 管理员登录名
+	true_name	varchar(50),						-- 管理员姓名
+	password	char(32)	NOT NULL,				-- 登录密码
+	status		char(1)		NOT NULL DEFAULT 'Y',			-- 状态
+	is_root		char(1)		NOT NULL DEFAULT 'N',			-- 是否超级管理员
+	create_time	datetime	NOT NULL,				-- 创建时间
+	last_login_time	datetime,						-- 上次登录时间
+	last_login_ip	varchar(15),						-- 上次登录IP
+	role_id		int		default NULL,
+	PRIMARY KEY(id)
+);
+
+-- 后台角色
+create table  t_m_role 
+(
+	id		int		NOT NULL identity (1,1),		-- 主键id
+	name		varchar(100)	DEFAULT NULL,				-- 角色名称
+	create_user	char(100)	default NULL,				-- 创建者
+	description	text,							-- 描述
+	status		char(1)		DEFAULT NULL,				-- 状态 Y N
+	PRIMARY KEY (id)
+) ;
+
+-- 角色权限表
+create table  t_m_role_access 
+(
+	role_id		 int		NOT NULL,
+	node_id		 int		NOT NULL,
+	PRIMARY KEY (role_id,node_id)
+) ;
+
+-- 操作表
+create table  t_m_node 
+(
+	id		int		NOT NULL,	-- 节点的ID,
+	name		varchar(100)	NOT NULL DEFAULT '',		-- 节点的名称,
+	title		varchar(50)	NOT NULL DEFAULT '',		-- 节点的title，用于菜单上的链接上的title,
+	remark		varchar(255)	NOT NULL DEFAULT '',		-- 节点的描述，可能在界面中告诉用户方法的作用,
+	status		char(1)		NOT NULL DEFAULT 'Y',		-- 节点的状态，Y为显示，N不显示,
+	level		int		NOT NULL DEFAULT '0',		-- 节点的等级，总共有3级, 1：组名  2：模块名 3级为操作名
+	fid		int		NOT NULL DEFAULT '0',		-- 节点的父节点的ID,
+	sort		int		NOT NULL DEFAULT '0',		-- 节点在一个小菜单的排序,在前台从小打到排序
+	PRIMARY KEY (id)
+);
+
+
+INSERT INTO t_m_node VALUES ('1', 'admin', '后台管理', '', 'Y', '1', '0', '0');
+INSERT INTO t_m_node VALUES ('2', 'admin_manage', '管理员管理', '', 'Y', '2', '1', '99');
+INSERT INTO t_m_node VALUES ('3', 'adminlist', '管理员列表', '', 'Y', '3', '2', '0');
+INSERT INTO t_m_node VALUES ('4', 'addadmin', '添加管理员', '', 'N', '3', '2', '0');
+INSERT INTO t_m_node VALUES ('5', 'adminProcess', '管理员处理', '', 'N', '3', '2', '0');
+INSERT INTO t_m_node VALUES ('6', 'editadmin', '编辑管理员', '', 'N', '3', '2', '0');
+INSERT INTO t_m_node VALUES ('7', 'role_manage', '角色管理', '', 'Y', '2', '1', '100');
+INSERT INTO t_m_node VALUES ('8', 'rolelist', '角色列表', '', 'Y', '3', '7', '0');
+INSERT INTO t_m_node VALUES ('9', 'addrole', '添加角色', '', 'N', '3', '7', '0');
+INSERT INTO t_m_node VALUES ('10', 'editrole', '编辑角色', '', 'N', '3', '7', '0');
+INSERT INTO t_m_node VALUES ('11', 'roleProcess', '角色处理', '', 'N', '3', '7', '0');
+
+INSERT INTO t_m_node VALUES ('12', 'dictionary_manage', '字典管理', '', 'Y', '2', '1', '1');
+INSERT INTO t_m_node VALUES ('13', 'positionlist', '热点列表', '', 'Y', '3', '12', '4');
+INSERT INTO t_m_node VALUES ('14', 'positionadd', '添加热点', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('15', 'positionedit', '编辑热点', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('16', 'positionProcess', '热点处理', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('17', 'toollist', '工具列表', '', 'Y', '3', '12', '2');
+INSERT INTO t_m_node VALUES ('18', 'tooladd', '添加工具', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('19', 'tooledit', '编辑工具', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('20', 'toolProcess', '工具处理', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('21', 'unitlist', '部件列表', '', 'Y', '3', '12', '3');
+INSERT INTO t_m_node VALUES ('22', 'unitadd', '添加部件', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('23', 'unitedit', '编辑部件', '', 'N', '3', '12', '0');
+INSERT INTO t_m_node VALUES ('24', 'unitProcess', '部件处理', '', 'N', '3', '12', '0');
+
+INSERT INTO t_m_node VALUES ('25', 'task_manage', '检修管理', '', 'Y', '2', '1', '2');
+INSERT INTO t_m_node VALUES ('26', 'tasklist', '基本任务列表', '', 'Y', '3', '25', '1');
+INSERT INTO t_m_node VALUES ('27', 'taskadd', '添加基本任务', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('28', 'taskedit', '基本任务修改', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('29', 'taskprocess', '基本任务处理', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('30', 'educationlist', '教学任务列表', '', 'Y', '3', '25', '2');
+INSERT INTO t_m_node VALUES ('31', 'educationadd', '教学任务添加', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('32', 'educationedit', '教学任务修改', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('33', 'educationprocess', '教学任务处理', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('34', 'ajaxGetPositionByType', '异步获取部位列表', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('35', 'ajaxGetTaskinfoById', '异步获取任务信息', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('36', 'ajaxGetPositionByUnitId', '异步获取热点信息', '', 'N', '3', '25', '0');
+
+INSERT INTO t_m_node VALUES ('37', 'yj_manage', '应急管理', '', 'Y', '2', '1', '1');
+INSERT INTO t_m_node VALUES ('38', 'yjtasklist', '故障名称列表', '', 'Y', '3', '37', '1');
+INSERT INTO t_m_node VALUES ('39', 'yjtaskadd', '添加故障名称', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('40', 'yjtaskedit', '编辑故障名称', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('41', 'yjtaskProcess', '故障名称处理', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('42', 'yjtiplist', '应急故障处理流程列表', '', 'Y', '3', '37', '2');
+INSERT INTO t_m_node VALUES ('43', 'yjtipadd', '添加流程', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('44', 'yjtipedit', '编辑流程', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('45', 'yjtipProcess', '流程处理', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('46', 'yjinitlist', '故障初始化列表', '', 'Y', '3', '37', '3');
+INSERT INTO t_m_node VALUES ('47', 'yjinitadd', '添加故障初始化', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('48', 'yjinitedit', '编辑故障初始化', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('49', 'yjinitProcess', '故障初始化处理', '', 'N', '3', '37', '0');
+
+INSERT INTO t_m_node VALUES ('50', 'taskkslist', '故障考试列表', '', 'Y', '3', '25', '3');
+INSERT INTO t_m_node VALUES ('51', 'taskksadd', '添加考试', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('52', 'taskksedit', '编辑考试', '', 'N', '3', '25', '0');
+INSERT INTO t_m_node VALUES ('53', 'taskksprocess', '故障考试处理', '', 'N', '3', '25', '0');
+
+INSERT INTO t_m_node VALUES ('54', 'yjkslist', '应急故障考试列表', '', 'Y', '3', '37', '4');
+INSERT INTO t_m_node VALUES ('55', 'yjksadd', '应急添加考试', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('56', 'yjksedit', '应急编辑考试', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('57', 'yjksprocess', '应急故障考试处理', '', 'N', '3', '37', '0');
+
+INSERT INTO t_m_node VALUES ('58', 'yjcollidelist', '应急故障碰撞点列表', '', 'Y', '3', '37', '3');
+INSERT INTO t_m_node VALUES ('59', 'yjcollideadd', '应急故障碰撞点添加', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('60', 'yjcollideedit', '应急故障碰撞点编辑', '', 'N', '3', '37', '0');
+INSERT INTO t_m_node VALUES ('61', 'yjcollideprocess', '应急故障碰撞点处理', '', 'N', '3', '37', '0');
+
+INSERT INTO t_m_node VALUES ('62', 'user_manage', '学员管理', '', 'Y', '2', '1', '4');
+INSERT INTO t_m_node VALUES ('63', 'userlist', '学员列表', '', 'Y', '3', '62', '1');
+INSERT INTO t_m_node VALUES ('64', 'addUser', '学员添加', '', 'N', '3', '62', '0');
+INSERT INTO t_m_node VALUES ('65', 'editUser', '学员编辑', '', 'N', '3', '62', '0');
+INSERT INTO t_m_node VALUES ('66', 'userProcess', '学员处理', '', 'N', '3', '62', '0');
+
+INSERT INTO t_m_node VALUES ('67', 'taskpage_manage', '试卷管理', '', 'Y', '2', '1', '3');
+INSERT INTO t_m_node VALUES ('68', 'taskpagelist', '试卷列表', '', 'Y', '3', '67', '1');
+INSERT INTO t_m_node VALUES ('69', 'addtaskpage', '试卷添加', '', 'N', '3', '67', '0');
+INSERT INTO t_m_node VALUES ('70', 'taskpageProcess', '试卷处理', '', 'N', '3', '67', '0');  
+
+INSERT INTO t_m_node VALUES ('71', 'getTaskBaseUnit', 'ajax获取基本任务下面的部件', '', 'N', '3', '25', '0');
+
+INSERT INTO t_m_admin VALUES ('admin', 'admin', '61b4afbfd199b74b038173ac00feefe4', 'Y', 'N', '2012-10-23 11:01:57', null, null, '1');   --  用户名admin  密码123456
+
+INSERT INTO t_m_role VALUES ('admin', '', 'admin', 'Y');
+
+
+
+INSERT INTO t_m_role_access VALUES ('1', '1');
+INSERT INTO t_m_role_access VALUES ('1', '2');
+INSERT INTO t_m_role_access VALUES ('1', '3');
+INSERT INTO t_m_role_access VALUES ('1', '4');
+INSERT INTO t_m_role_access VALUES ('1', '5');
+INSERT INTO t_m_role_access VALUES ('1', '6');
+INSERT INTO t_m_role_access VALUES ('1', '7');
+INSERT INTO t_m_role_access VALUES ('1', '8');
+INSERT INTO t_m_role_access VALUES ('1', '9');
+INSERT INTO t_m_role_access VALUES ('1', '10');
+INSERT INTO t_m_role_access VALUES ('1', '11');
+INSERT INTO t_m_role_access VALUES ('1', '12');
+INSERT INTO t_m_role_access VALUES ('1', '13');
+INSERT INTO t_m_role_access VALUES ('1', '14');
+INSERT INTO t_m_role_access VALUES ('1', '15');
+INSERT INTO t_m_role_access VALUES ('1', '16');
+INSERT INTO t_m_role_access VALUES ('1', '17');
+INSERT INTO t_m_role_access VALUES ('1', '18');
+INSERT INTO t_m_role_access VALUES ('1', '19');
+INSERT INTO t_m_role_access VALUES ('1', '20');
+INSERT INTO t_m_role_access VALUES ('1', '21');

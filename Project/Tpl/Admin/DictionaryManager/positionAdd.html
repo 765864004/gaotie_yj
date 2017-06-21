@@ -1,0 +1,74 @@
+<div class="pageContent">
+    <form  class="pageForm required-validate"  action="{%:U('admin/dictionary_manage/positionAdd')%}" onsubmit="return validateCallback(this,dialogAjaxDone)" method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='150'><label>车型</label></td>
+                <td align="left">
+                     <select name="CRH" id="CRH" class="required">
+                     {%volist name="crh" id='vo'%}
+                        <option value="{%$key%}">{%$vo%}</option>
+                     {%/volist%}
+                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>任务部位</label></td>
+                <td align="left">
+                    {%volist name="BWTypeArr" id='Bwvo'%}
+                        <input name="area" value="{%$key%}" type="radio" <?php if($key == 1):?>checked<?php endif;?> class="partpoint1">{%$Bwvo%}
+                    {%/volist%}
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><label>部件</label></td>
+                <td align="left">
+                    <select name="unit" id="partcont1">
+                        {%volist name="unitList" id="unitvo"%}
+                            <option value="{%$unitvo['id']%}">{%$unitvo['unitname']%}
+                        {%/volist%}
+                    </select>
+                    
+                    
+                    <!--  
+                    <div style="width:100%;height:60px;overflow-y:scroll" id="partcont1">
+                        {%volist name="unitList" id="unitvo"%}
+                            <input type="radio" name="unit" value="{%$unitvo['id']%}">{%$unitvo['unitname']%}
+                        {%/volist%}
+                    </div>
+                    -->
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width='130'><label>模型名称(碰撞体)</label></td>
+                <td align="left"><input type='text' name='modelname'  class="required"/></td>
+            </tr>
+            <tr>
+                <td align="center"><label>中文名称</label></td>
+                <td align="left"><input type='text' name='tipname'/></td>
+            </tr>
+            <tr>
+                <td align="center" width='130'><label>更换贴图的模型名称</label></td>
+                <td align="left"><input type='text' name='randname' /></td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div><!-- pageContent end -->
+<script>
+$(function(){
+    $(".partpoint1").click(function(){
+    	var CRH = $("#CRH").val();
+        var value = $(this).val();
+        var url="{%:U('admin/task_manage/ajaxGetPositionByType')%}";
+        $.post(url,{'type':value,'CRH':CRH},function(data){
+            $("#partcont1").html(data.data);
+        },'json')
+    });
+})
+ </script>

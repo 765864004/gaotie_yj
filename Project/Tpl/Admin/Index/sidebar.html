@@ -1,0 +1,22 @@
+<div  class="accordion"  fillSpace="sidebar">
+{%foreach name="sidebar" item="po"%}
+
+<!--顶级栏目-->
+<div class="accordionHeader">
+  <h2><span>Folder</span>{%$po['title']%}</h2>
+</div>
+
+<!--二级栏目-->
+<div class="accordionContent">
+		<ul class="tree treeFolder">
+			{%foreach name="po['items']" item="actionItem" %}
+			<li>
+		        <a href="<?php echo U($po['groupName'].'/'.$po['name'].'/'.$actionItem['name']);?>" target="navTab"  rel="{%$actionItem['name']%}">
+		              {%$actionItem['title']%}
+		        </a>
+			</li>
+			{%/foreach%}
+		</ul>
+</div>
+ {%/foreach%}
+ </div>

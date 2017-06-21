@@ -1,0 +1,35 @@
+<div class="pageContent"  style="height:485px;overflow-y:auto;">
+    <form  class="pageForm required-validate"  action="{%:U('admin/ks_manage/toExcel')%}"  method="post" >
+    <table id="UserListTable" class="list" style="width:100%;">
+        <tbody>
+            <tr>
+                <td align="center" width='150'><label>选择试卷</label></td>
+                <td align="left">
+                    <select name="paperid">
+                        {%volist name="pageList" id="pagePo"%}
+                            <option value="{%$pagePo['autoid']%}">{%$pagePo['name']%}
+                        {%/volist%}
+                    </select>
+                </td>
+            </tr>
+            <!--  -->
+            <tr>
+                <td align="center" width='150'><label>选择部门</label></td>
+                <td align="left">
+                    <select name="departid" id="departid">
+                        <option value="">全部
+                        {%volist name="bumenList" id="departPo"%}
+                            <option value="{%$departPo['id']%}" <?php if($departRid == $departPo['id']):?>selected<?php endif;?>>{%$departPo['name']%}
+                        {%/volist%}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan='2' align='right'><input type='submit' value='提交' /><input type='reset' value='重置' /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="submit" value="1"/>
+    </form>
+</div><!-- pageContent end -->
