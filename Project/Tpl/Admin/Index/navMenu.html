@@ -1,7 +1,0 @@
-<ul>
-
-{%foreach name="navMenu" item="navItem"  key="key"%}
-   {%if condition="$key eq 0"%}<li class="selected">{%else /%}<li>{%/if%}
-       <a href="{%:U('admin/index/changeSidebar', array('groupId'=>$navItem['id']))%}"><span>{%$navItem['title']%}</span></a></li>
-{%/foreach%}
-</ul>
