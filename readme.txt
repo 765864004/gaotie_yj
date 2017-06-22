@@ -2,3 +2,4 @@
 
 2.magic_quotes_gpc = Off php配置文件
 3.核心文件 Db.class.php关闭转义
+122222
